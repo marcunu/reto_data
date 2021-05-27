@@ -53,4 +53,23 @@ def heat_map_triangle(df):
     # Draw the heatmap with the mask and correct aspect ratio
     return sns.heatmap(corr, mask=mask, cmap=cmap, vmax=.3, center=0, square=True, linewidths=.5,annot=True, cbar_kws={"shrink": .5})
 
- 
+
+def dot_comma(fila):
+    '''
+    This function replace ","" with ".".
+    Args:
+        - fila: the string where we want to remove the comma.
+    '''
+
+    return fila.replace(',','.')
+
+
+def str_to_float(df_columna):
+    '''
+    This function convert a object type column into a float.
+    Args:
+        -columna: The column we want to convert.
+    '''
+
+
+    return  df_columna.str.replace(",",".").astype(float) 
