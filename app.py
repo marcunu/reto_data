@@ -13,17 +13,19 @@ st.set_page_config(layout="wide")
 
 app = MultiApp()
 
-imagen = Image.open("Tools/Images/logo_pn.png")
+imagen = Image.open("Tools/Images/logo.png")
 st.sidebar.image(imagen)
 
 st.sidebar.markdown("""
-## The best real estate valuation tool
+# The best tool for
+# `high-end tunned` 
+# car fuel prediction
 """)
 
 # Add all your application here
 
 app.add_app("Home", Home.app)
-app.add_app("Calculator", calculator.app)
+#app.add_app("Calculator", calculator.app)
 app.add_app("Visualization", graphics.app)
 
 # The main app
