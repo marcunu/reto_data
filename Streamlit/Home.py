@@ -4,27 +4,30 @@ from PIL import Image
 
 def app():
     
-    # Front Page
-    logo = Image.open("Tools/Images/logo.png")
-    st.image(logo)
+    st.title("""
+    Cobify
+    """)
 
-    imagen = Image.open("Tools/Images/Portada2.jpg")
+    imagen = Image.open("Tools/Images/portada.jpg")
     st.image(imagen)
 
-    st.title("""
-    How much is your house worth?
-    Have you ever wondered what the **`current value`** of your home is?
 
-    Are you interested in buying a new property but don't know if its value is in line with the **`market value`**?
-
-    Have you ever tried to **`rent a property`** and didn't know if the price was right?
-
-    Here we help you to check it, please enter the desired information in the boxes.
-    """)
 
     st.write("""
-    # Real estate market
-    After the brick crisis of 2008 the real estate market suffered a very sharp fall, but nowadays prices are increasing.
+    Cobify is a company dedicated to transporting people in the style of Uber, Lyft and Cabify itself, which stole its name.
+
+    Cobify was founded in 1992 to coincide with the Barcelona Olympics. We have always been characterised by two things:
+
+    - Operating without a licence of any kind. 💳
+    - The use of tricked-out top-of-the-range cars. 🏎
+
+    With the appearance of VTC licences we have been able to come out of the underground and have started to operate legally. But our other hallmark is still the tricked-out high-end cars.
     """)
 
-    st.image(Image.open("Tools/Images/Madrid-overall-property-prices.png"))
+    st.image(Image.open("Tools/Images/gas_station_orig.jpg"))
+
+    st.write("""
+    # The fuel Problem
+    In case you didn't know, trick cars use high cetane number petrols such as SP98 to avoid fuel injection delays/advancement (avoiding crank pitting), but we have also started to embrace fuels that add ethanol in their formulations, they are cheaper and offer the same cetane number as the more expensive petrols. Without going into more detail (this would be enough for a book) we are beginning to smell that being ecological and modern can be expensive, it seems that cars consume more on journeys.
+
+    """)

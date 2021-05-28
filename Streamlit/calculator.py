@@ -11,7 +11,8 @@ import src.manage_data as dat
 def app():
 
     st.title("""
-    Here we help you to check it, please enter the desired information in the boxes.
+    Below I help you to choose the best type of fuel depending on the situation.
+    In short, what the calculator does is to calculate the consumption according to the different parameters for the two types of fuel, once it has calculated them, it compares them and gives you back which is the most efficient fuel for each case.
     """)
 
     m2 = st.text_input("""
