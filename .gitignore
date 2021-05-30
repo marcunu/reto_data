@@ -3,6 +3,5 @@
 **/__pycache__
 .vscode
 .env
-data
 /Tools/chromedriver.exe
 
