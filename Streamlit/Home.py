@@ -6,10 +6,10 @@ def app():
     
 
 
-    logo = Image.open("Tools/Images/logo_grand.png")
+    logo = Image.open("Tools/images/logo_grand.png")
     st.image(logo)
 
-    imagen = Image.open("Tools/Images/portada.jpg")
+    imagen = Image.open("Tools/images/portada.jpg")
     st.image(imagen)
 
 
