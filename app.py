@@ -13,7 +13,7 @@ st.set_page_config(layout="wide")
 
 app = MultiApp()
 
-imagen = Image.open("Tools/Images/logo_cobi.png")
+imagen = Image.open("Tools/images/logo_cobi.png")
 st.sidebar.image(imagen)
 
 st.sidebar.markdown("""
