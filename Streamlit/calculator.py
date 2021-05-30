@@ -91,7 +91,7 @@ def app():
         ren_tree = pickle.load(open("Tools/parameters/cars", 'rb'))
         consume_e = ren_tree.predict(fuel_test_e)
         fuel_test_e["consume"] = consume_e
-
+        
         precio_e =  round(fuel_test_e["distance"] * (fuel_test_e["consume"]/100) * fuel_test_e["Fuel_price"],2)    
 
     
@@ -106,12 +106,26 @@ def app():
         pass
     
 
+
     try:
-        dc={"SP98":precio_sp[0],"E10":precio_e[0]}
+        st.markdown("""# The problem of maintenance""")
+        st.write(""" E10 petrol is cheaper, but when using SP98 petrol the engine is better preserved, that is why the maintenance cost of the engine is lower when using SP98 petrol. What the comparator does is to calculate this cost depending on the distance to be travelled and add it to the price of the fuel used, calculating if the total price is lower for one petrol or the other taking into account the maintenance and the price of the petrol at the same time. """)
+        
+        mantenimiento_e = round(dist * 0.0151,2)
+        mantenimiento_sp = round(dist * 0.0117,2)
+
+        pf_sp = precio_sp[0] + mantenimiento_sp
+        pf_e = precio_e[0] + mantenimiento_e
+
+        st.markdown(f"""## Total price if you use SP98 fuel is:  `{round(pf_sp,2)} €`""")
+
+        st.markdown(f"""## Total price if you use E10 fuel is:  `{round(pf_e,2)} €` """)
+
+        dc={"SP98":pf_sp,"E10":pf_e}
 
         mejor = min(dc, key=dc.get)
 
-        st.markdown(f"""# The best fuel for this travel is {mejor}""")
+        st.markdown(f"""# The best fuel for this travel is `{mejor}`""")
     except:
         pass
 
