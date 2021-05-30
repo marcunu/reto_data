@@ -7,97 +7,112 @@ import pickle
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 import src.manage_data as dat
+import requests
+import json
 
 def app():
 
     st.title("""
     Below I help you to choose the best type of fuel depending on the situation.
     In short, what the calculator does is to calculate the consumption according to the different parameters for the two types of fuel, once it has calculated them, it compares them and gives you back which is the most efficient fuel for each case.
+    Depending on the location, it collects weather information for the city via an API call to a weather page, and fills in the values within the algorithm.
     """)
 
-    m2 = st.text_input("""
-    Enter the square metres of your home:
+    dist = st.number_input("""
+    how far you plan to go:
     """)
 
-    habit = st.text_input("""
-    How many rooms does your home have?:
+    speed = st.number_input("""
+    How fast do you plan to go?:
     """)
 
-    banos = st.text_input("""
-    How many bathrooms does your home have?:
-    """)
-
-    piso = st.text_input("""
-    What floor is your home on?:
-    """)
-
-    nueva = dat.sn_bool(st.selectbox("""
-    Is it a new development?:
+    ac = dat.sn_bool(st.selectbox("""
+    Are you going to use the AC??:
     """, dat.si_no()))
 
-    reforma = dat.sn_bool(st.selectbox("""
-    Does it need to be reformed?:
-    """, dat.si_no()))
+    ciudad = st.text_input("""
+    Where are you?
+    """)
 
-    park = dat.sn_bool(st.selectbox("""
-    Do you have a parking space?:
-    """, dat.si_no()))
+    url = "http://api.weatherapi.com/v1/current.json?key=75da7270adbc40d6b58154057213005&q={ciudad}&aqi=no"
 
-    exter = dat.sn_bool(st.selectbox("""
-    is exterior?:
-    """, dat.si_no()))
+    response = requests.get(url).json()
 
-    tipo= dat.ht_value(st.selectbox("""
-    What type of housing is it?:
-    """, dat.ht_keys()))
+    temp_o = response["current"]["temp_c"]
+    nubes = response["current"]["cloud"]
 
-    distr = st.selectbox("""
-    Select a district:
-    """, dat.d_keys())
+    if nubes >=  50:
+        sun = 0
+    else:
+        sun = 1
 
+    lluvia = response["current"]["precip_mm"]
 
-    barr = dat.b_values(distr, st.selectbox("""
-    Select a neighborhood:
-    """, dat.b_keys(distr)))
+    if lluvia > 0 :
+        rain = 1
+    else:
+        rain = 0
 
+    st.markdown(f"""### In `{ciudad}`, a temperature of `{temp_o} ºC` is forecast, there will be `{nubes}%` of clouds and the precipitation will be `{lluvia} mm`.""")
+    st.write(f"""This information has been obtained from weather API""")
 
-    cert = dat.ec_value(st.selectbox("""
-    What kind of energy certificate do you have?
-    """, dat.ec_keys()))
+    fuel_sp = {
+        "distance": [dist],
+        "speed": [speed],
+        "temp_inside" : 21.9295, 
+        "temp_outside" : [temp_o],
+        "AC" : [ac],
+        "rain" : [rain],
+        "sun": [sun],
+        "Fuel_price" : 1.46  
+    }
 
-
-
-    market = {
-        "sq_mt_built": [m2],
-        "n_rooms": [habit],
-        "n_bathrooms" : [banos], 
-        "floor" : [piso],
-        "is_new_development" : [nueva],
-        "is_renewal_needed" : [reforma],
-        "has_parking": [park],
-        "is_exterior" : [exter],
-        "tipo" : [tipo],
-        "barrio_pm2" : [barr], 
-        "e_certificate" : [cert],
-        #"rent_price" : [1800]
-        
+    fuel_e = {
+        "distance": [dist],
+        "speed": [speed],
+        "temp_inside" : 21.9295, 
+        "temp_outside" : [temp_o],
+        "AC" : [ac],
+        "rain" : [rain],
+        "sun": [sun],
+        "Fuel_price" : 1.38  
     }
 
     try:
-        market_test = pd.DataFrame(market)
-        ren_tree = pickle.load(open("Tools/parameters/rent_price/rp_rfr_md9_mf075_ms2", 'rb'))
-        precio = ren_tree.predict(market_test)
-        #st.write(precio)
+        fuel_test_sp = pd.DataFrame(fuel_sp)
+        ren_tree = pickle.load(open("Tools/parameters/cars", 'rb'))
+        consume_sp = ren_tree.predict(fuel_test_sp)
+        fuel_test_sp["consume"] = consume_sp
+        
 
-        market["rent_price"] = [precio]
-        market_test = pd.DataFrame(market)
-        best_tree = pickle.load(open("Tools/parameters/rfr_md8_mf08_ms3_fun", 'rb'))
+        precio_sp =  round(fuel_test_sp["distance"] * (fuel_test_sp["consume"]/100) * fuel_test_sp["Fuel_price"],2)
 
-        valoracion = best_tree.predict(market_test)
+        fuel_test_e = pd.DataFrame(fuel_e)
+        ren_tree = pickle.load(open("Tools/parameters/cars", 'rb'))
+        consume_e = ren_tree.predict(fuel_test_e)
+        fuel_test_e["consume"] = consume_e
 
-        st.title(f"""The market price of your property is `{round(valoracion[0],-4)}` €""")
+        precio_e =  round(fuel_test_e["distance"] * (fuel_test_e["consume"]/100) * fuel_test_e["Fuel_price"],2)    
 
-        st.title(f"""The rent price of your property is `{round(precio[0], -1)}` €""")
     
+
+        st.markdown(f"""## The price if you use SP98 fuel is:  `{precio_sp[0]} €`""")
+
+        st.markdown(f"""## The price if you use E10 fuel is:  `{precio_e[0]} €` """)
+    
+        
+
     except:
         pass
+    
+
+    try:
+        dc={"SP98":precio_sp[0],"E10":precio_e[0]}
+
+        mejor = min(dc, key=dc.get)
+
+        st.markdown(f"""# The best fuel for this travel is {mejor}""")
+    except:
+        pass
+
+    

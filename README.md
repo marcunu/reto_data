@@ -15,30 +15,28 @@ We're a bit old-school and we find data analysis a bit strange, but as it's alwa
 
 <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/captura-de-pantalla-2019-12-20-19-07-54-1576865490.png" alt="drawing" width="400"/>
 
-### Un poco de historia del problema de la gasolina ⛽️
+### Some preliminary information  ⛽️
 
 In case you didn't know, trick cars use high cetane number petrols such as SP98 to avoid fuel injection delays/advancement (avoiding crank pitting), but we have also started to embrace fuels that add ethanol in their formulations, they are cheaper and offer the same cetane number as the more expensive petrols. Without going into more detail (this would be enough for a book) we are beginning to smell that being ecological and modern can be expensive, it seems that cars consume more on journeys.
 
-### El reto comienza aquí 📈
+### Challenge starts here 📈
 
 I have decided to do a study on which petrol is better, so I have downloaded a fuel dataset from [Kaggle](https://www.kaggle.com/anderas/car-consume?select=measurements.csv)
 
-### Pasos a seguir 
+### Steps 
 
 - Clean the data
 - Make a visualisation and look for relationships between them
 - Tell the story that the data tells (storytelling)
 - Do some regression/classification or prediction of some kind
 - What metrics do I get?
-- Explain your conclusions
 - Get related data by web scraping or with APIS
 - Enrich the dataset
 - Put it all in a database
-- Make your own API to serve data / predictions / graphs
 
 ## Where
 
-You can try it [here](https://housecoin.herokuapp.com/)
+You can try it [here](https://cobify.herokuapp.com/)
 
 ## Languages
 

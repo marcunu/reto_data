@@ -25,8 +25,8 @@ st.sidebar.markdown("""
 # Add all your application here
 
 app.add_app("Home", Home.app)
-#app.add_app("Calculator", calculator.app)
 app.add_app("Visualization", graphics.app)
+app.add_app("Calculator", calculator.app)
 
 # The main app
 app.run()
